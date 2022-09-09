@@ -54,8 +54,6 @@ const server = http.createServer((req, res) => {
       'Set-Cookie': "embeddedCookie=Hello from an embedded third party cookie!;Path=/;Secure;SameSite=None"
     });
 
-
-    console.log(req.url)
     if (req.url.includes('.css')) {
         sendFileContent(res, req.url.toString().substring(1), "text/css");
     } else if (req.url.includes('.js')) {
