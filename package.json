@@ -1,17 +1,12 @@
 {
   "name": "landing-page",
-   "version": "1.0.0",
-   "description": "Music Album",
-   "private": true,
-   "main": "app.js",
+  "version": "1.0.0",
+  "description": "Music Album",
+  "private": true,
+  "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/auminpatel/landing-page.git"
-  },
-  "keywords": [],
   "author": "aumin",
   "license": "ISC",
   "dependencies": {
