@@ -1,6 +1,6 @@
 // Define the basic imports and constants.
 const fs = require('fs');
-const https = require('https');
+const http = require('http');
 const port = 5002;
 
 // // Get the keys and certs for HTTPS.
@@ -47,7 +47,7 @@ function sendFileContent(response, fileName, contentType){
 /**
  * Main Program - Start Server
  */
-const server = https.createServer((req, res) => {
+const server = http.createServer((req, res) => {
     logDebugMessage(req.url);
 
     res.writeHead(200, {
