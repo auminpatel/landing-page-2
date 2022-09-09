@@ -3,9 +3,9 @@ const fs = require('fs');
 const https = require('https');
 const port = 5002;
 
-// Get the keys and certs for HTTPS.
-const key = fs.readFileSync('./ssl/www-key.pem');
-const cert = fs.readFileSync('./ssl/www-cert.pem');
+// // Get the keys and certs for HTTPS.
+// const key = fs.readFileSync('./ssl/www-key.pem');
+// const cert = fs.readFileSync('./ssl/www-cert.pem');
 
 
 
@@ -47,7 +47,7 @@ function sendFileContent(response, fileName, contentType){
 /**
  * Main Program - Start Server
  */
-const server = https.createServer({ key: key, cert: cert },(req, res) => {
+const server = https.createServer((req, res) => {
     logDebugMessage(req.url);
 
     res.writeHead(200, {
