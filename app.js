@@ -16,7 +16,7 @@ const pathmodule = require('path');
 
 const hostname = 'localhost';
 const baseDir = __dirname + "/";
-const debug = true;
+const debug = false;
 
 
 function logDebugMessage(message) {
@@ -50,9 +50,8 @@ function sendFileContent(response, fileName, contentType){
 const server = http.createServer((req, res) => {
     logDebugMessage(req.url);
 
-    res.writeHead(200, {
-      'Set-Cookie': "embeddedCookie=Hello from an embedded third party cookie!;Path=/;Secure;SameSite=None"
-    });
+
+    // res.setHeader('Set-Cookie','visited=true; Max-Age=3000; HttpOnly, Secure');
 
     if (req.url.includes('.css')) {
         sendFileContent(res, req.url.toString().substring(1), "text/css");
@@ -83,19 +82,18 @@ const server = http.createServer((req, res) => {
                 }
             });
         }
-    } else {
-        const queryObject = url.parse(req.url,true).query;
-        let searchName = '';
-        if (queryObject.songName) {
-            searchName = queryObject.songName;
-        }
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-        let htmlText = findBySongName(searchName);
-        logDebugMessage(htmlText);
+    }else {
 
-        res.end(htmlText);
-    }
+    console.log('Creating Cookie');
+
+    var cookie = {
+      "some": "data"
+    };
+
+    res.writeHead(200, {'Set-Cookie': cookie, 'Content-Type': 'text/plain'});
+
+    res.end();
+  }
 });
 
     
