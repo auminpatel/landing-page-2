@@ -5,10 +5,10 @@ const port = 5002;
 const cookie = require('cookie');
 
 // // Get the keys and certs for HTTPS.
-const key = fs.readFileSync('./ssl/www-key.pem');
-const cert = fs.readFileSync('./ssl/www-cert.pem');
+// const key = fs.readFileSync('./ssl/www-key.pem');
+// const cert = fs.readFileSync('./ssl/www-cert.pem');
 
-const url = require('url');
+// const url = require('url');
 const pathmodule = require('path');
 
 
@@ -45,7 +45,9 @@ function sendFileContent(response, fileName, contentType){
 /**
  * Main Program - Start Server
  */
-const server = http.createServer({ key: key, cert: cert },(req, res) => {
+
+//  const server = http.createServer({ key: key, cert: cert },(req, res) => {
+const server = http.createServer((req, res) => {
     logDebugMessage(req.url);
 
     const k =  cookie.serialize('name', 'aumin', {
@@ -61,10 +63,9 @@ const server = http.createServer({ key: key, cert: cert },(req, res) => {
 
 
     res.setHeader('Set-Cookie',[k]);
-    res.setHeader('Location', req.headers.referer || '/');
     res.statusCode = 302;
-
-    console.log(req.headers.cookie)
+    res.setHeader('Location', req.headers.referer || '/');
+    
 
     if(!req.headers.cookie || req.headers.cookie === ''){
                 res.writeHead(404);
@@ -101,19 +102,7 @@ const server = http.createServer({ key: key, cert: cert },(req, res) => {
                 }
             });
         }
-    }else {
-
-        // res.setHeader('Set-Cookie', cookie.serialize('name', String('aumn'), {
-        //     httpOnly: true,
-        //     maxAge: 60 * 60 * 24 * 7 ,// 1 week
-        //     sameSite: 'none'
-        //   }));
-      
-        //   // Redirect back after setting cookie
-        //   res.statusCode = 200;
-        //   res.setHeader('Location', req.headers.referer || '/');
-        //   res.end();
-  }
+    }
 
 
 });
