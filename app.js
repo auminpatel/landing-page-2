@@ -52,7 +52,7 @@ const server = http.createServer((req, res) => {
 
     const k =  cookie.serialize('name', 'aumin', {
         httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7 ,// 1 week
+        maxAge: 60 * 60 * 24 * 7 ,
         sameSite: 'none',
         secure: true
       });
@@ -67,12 +67,14 @@ const server = http.createServer((req, res) => {
     res.setHeader('Location', req.headers.referer || '/');
     
 
-    if(!req.headers.cookie || req.headers.cookie === ''){
+    if(!req.headers.cookie){
                 res.writeHead(404);
                 res.write("<p>Page Not found.</p>");
+                res.end();
+                return;
     }
  
-    if (req.url.includes('.css')) {
+    else if (req.url.includes('.css')) {
        
         sendFileContent(res, req.url.toString().substring(1), "text/css");
     } else if (req.url.includes('.js')) {
