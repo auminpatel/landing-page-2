@@ -56,11 +56,6 @@ const server = http.createServer((req, res) => {
         sameSite: 'none',
         secure: true
       });
-    
-      // Redirect back after setting cookie
-    //  res.statusCode = 302;
-    //   res.setHeader('Location', req.headers.referer || '/');
-
 
     res.setHeader('Set-Cookie',[k]);
     res.statusCode = 302;
