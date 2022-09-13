@@ -1,16 +1,14 @@
 // Define the basic imports and constants.
 const fs = require('fs');
-const http = require('http');
+const http= require('http');
 const port = 5002;
+const cookie = require('cookie');
 
 // // Get the keys and certs for HTTPS.
 // const key = fs.readFileSync('./ssl/www-key.pem');
 // const cert = fs.readFileSync('./ssl/www-cert.pem');
 
-
-
-
-const url = require('url');
+// const url = require('url');
 const pathmodule = require('path');
 
 
@@ -47,13 +45,32 @@ function sendFileContent(response, fileName, contentType){
 /**
  * Main Program - Start Server
  */
+
+//  const server = http.createServer({ key: key, cert: cert },(req, res) => {
 const server = http.createServer((req, res) => {
     logDebugMessage(req.url);
 
+    const k =  cookie.serialize('name', 'aumin', {
+        httpOnly: true,
+        maxAge: 60 * 60 * 24 * 7 ,
+        sameSite: 'none',
+        secure: true
+      });
 
-    // res.setHeader('Set-Cookie','visited=true; Max-Age=3000; HttpOnly, Secure');
+    res.setHeader('Set-Cookie',[k]);
+    res.statusCode = 302;
+    // res.setHeader('Location', req.headers.referer || '/');
+    
 
-    if (req.url.includes('.css')) {
+    if(!req.headers.cookie){
+                res.writeHead(404);
+                res.write("<p>Page Not found.</p>");
+                res.end();
+                return;
+    }
+ 
+    else if (req.url.includes('.css')) {
+       
         sendFileContent(res, req.url.toString().substring(1), "text/css");
     } else if (req.url.includes('.js')) {
         sendFileContent(res, req.url.toString().substring(1), "text/javascript");
@@ -82,18 +99,9 @@ const server = http.createServer((req, res) => {
                 }
             });
         }
-    }else {
+    }
 
-    console.log('Creating Cookie');
 
-    var cookie = {
-      "some": "data"
-    };
-
-    res.writeHead(200, {'Set-Cookie': cookie, 'Content-Type': 'text/plain'});
-
-    res.end();
-  }
 });
 
     
