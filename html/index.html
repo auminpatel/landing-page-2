@@ -4,8 +4,9 @@
     <title>Landing Page</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="./css/style.css">
-    <!-- <script src="https://unpkg.com/zoid@9.0.85/dist/zoid.js"></script> -->
-    <!-- <script src="./src/index.js"></script> -->
+    <script src="https://unpkg.com/zoid@9.0.85/dist/zoid.js"></script>
+    <script src="https://unpkg.com/post-robot@10.0.46/dist/post-robot.js"></script>
+    <script src="./js/index.js"></script>
   </head>
   <body>
     <header class="header-section">
@@ -96,9 +97,58 @@
   
       // Pre-polulate the email field, if we're passed an name
   
-      // if (window.xprops.name) {
-      //   document.querySelector('.header-color').innerHTML = window.xprops.name;
-      // }
+      if ( window && window.xprops && window.xprops.name) {
+        document.querySelector('.header-color').innerHTML = window.xprops.name;
+      }
+
+      if(postRobot)
+  {
+    postRobot
+  .send(window.parent,"getUser", { id: 1337 })
+  .then(function (event) {
+    var user = event.data;
+
+    console.log("Data from parent",event.source, event.origin, "Got user:", user);
+
+    // Call the user.logout function from the other window!
+
+    // user.logout();
+  })
+  .catch(function (err) {
+    // Handle any errors that stopped our call from going through
+
+    console.error(err);
+  });
+  }
+
+  if(postRobot)
+  {
+
+  postRobot.on("getUser8" , function (event) {
+      console.log(event)
+  // Have it return some data to the calling window
+
+  return {
+    id: 1338,
+    name: "Zippy the Pinhead sending data to main",
+    rool: "Admin"
+
+    // Yep, we're even returning a function to the other window!
+
+    // logout: function () {
+    //   return $currentUser.logout();
+    // },
+  };
+  
+});
+
+  
+  
+  
+  }
+
+
+
 
     </script>
   </body>

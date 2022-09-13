@@ -63,8 +63,8 @@ const server = http.createServer((req, res) => {
 
 
     res.setHeader('Set-Cookie',[k]);
-    res.statusCode = 302;
-    res.setHeader('Location', req.headers.referer || '/');
+    // res.statusCode = 302;
+    // res.setHeader('Location', req.headers.referer || '/');
     
 
     if(!req.headers.cookie){
@@ -111,5 +111,5 @@ const server = http.createServer((req, res) => {
 
     
 server.listen(port, () => {
-    console.log(`Server running at https://${hostname}:${port}/`);
+    console.log(`Server running at http://${hostname}:${port}/`);
 });
